@@ -1,4 +1,8 @@
 .env
 leads_transporte_executivo_sp.csv
+leads_transporte_executivo_premium_sp.csv
+contatos.py
+contatos_prospeccao_luiz.vcf
 /notebooklm/O_Ativo_Estratégico.mp4
 /notebooklm/Executivos_preferem_motoristas_maduros_em_blindados.m4a
+maquina-semi-automatica.py

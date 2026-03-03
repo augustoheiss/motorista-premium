@@ -261,10 +261,60 @@
                 height: 30px;
             }
         }
+    /* --- Efeito Visual: Trânsito vs. Fluidez --- */
+
+    #transito-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        opacity: 0.25; /* Um pouco mais visível */
+        pointer-events: none; /* Deixa você clicar no site normalmente */
+    }
+
+    .carro-lento {
+        position: absolute;
+        width: 30px;
+        height: 60px;
+        background-color: #333; /* Cor dos carros do trânsito */
+        border-radius: 4px;
+        /* A transição agora afeta apenas o transform do desvio e a cor */
+        transition: transform 0.2s ease-out, background-color 0.2s ease; 
+    }
+
+    /* Agora a descida usa 'top' em vez de 'transform' para não brigar com o JS */
+    @keyframes moverTransito {
+        from { top: -100px; }
+        to { top: 120vh; }
+    }
+
+    #carro-mouse {
+        position: fixed;
+        width: 40px; 
+        height: 80px;
+        /* Dourado (#C5A869) com 40% de opacidade para não atrapalhar a leitura */
+        background-color: rgba(197, 168, 105, 0.4); 
+        border-radius: 6px;
+        background-image: url('notebooklm/byd_top_view.png'); 
+        background-size: cover;
+        background-position: center;
+        pointer-events: none; /* Garante que o seu clique atravesse o carro dourado e selecione o texto */
+        z-index: 9999; 
+        display: none; 
+        /* Brilho dourado também mais transparente e suave */
+        box-shadow: 0 0 15px rgba(197, 168, 105, 0.2); 
+        /* Um toque premium: desfoca levemente o que estiver atrás do carro dourado */
+        backdrop-filter: blur(2px); 
+    }
 
     </style>
 </head>
 <body>
+    <div id="transito-background"></div>
+    <div id="carro-mouse"></div>
 
     <header>
         <h1>Luiz Antonio</h1>
@@ -511,6 +561,75 @@
                 painel.style.display = 'none';
             }
         }
+
+        
+        
+        const totalCarrosLentos = 40; 
+        const raioFuga = 120; // Distância de detecção do "susto"
+
+        const container = document.getElementById('transito-background');
+        const carroMouse = document.getElementById('carro-mouse');
+        const carrosLentosElements = [];
+
+        // 1. Criar o congestionamento
+        for (let i = 0; i < totalCarrosLentos; i++) {
+            const carro = document.createElement('div');
+            carro.className = 'carro-lento';
+            
+            carro.style.left = Math.random() * 100 + 'vw';
+            
+            const duracao = 15 + Math.random() * 20 + 's';
+            const atraso = '-' + Math.random() * 20 + 's';
+            
+            // Aplica a animação no eixo Y (top)
+            carro.style.animation = `moverTransito ${duracao} linear ${atraso} infinite`;
+
+            container.appendChild(carro);
+            carrosLentosElements.push(carro);
+        }
+
+        // 2. Lógica de Interação e Fuga
+        document.addEventListener('mousemove', (e) => {
+            carroMouse.style.display = 'block';
+
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            // Move o carro dourado junto com o mouse normal (centralizado)
+            carroMouse.style.left = (mouseX - 20) + 'px';
+            carroMouse.style.top = (mouseY - 40) + 'px';
+
+            // Faz os carros lentos fugirem para os lados
+            carrosLentosElements.forEach(carro => {
+                const rect = carro.getBoundingClientRect();
+                const carroX = rect.left + rect.width / 2;
+                const carroY = rect.top + rect.height / 2;
+
+                const distX = mouseX - carroX;
+                const distY = mouseY - carroY;
+                const distancia = Math.sqrt(distX * distX + distY * distY);
+
+                if (distancia < raioFuga) {
+                    // Descobre para que lado empurrar (esquerda ou direita)
+                    const direcao = carroX < mouseX ? -1 : 1; 
+                    // Quanto mais perto o mouse, mais forte o empurrão (fuga)
+                    const forca = (raioFuga - distancia) * 0.8; 
+                    
+                    carro.style.transform = `translateX(${direcao * forca}px)`;
+                    carro.style.backgroundColor = '#8B0000'; // Fica vermelho ("susto/freio")
+                } else {
+                    carro.style.transform = `translateX(0px)`;
+                    carro.style.backgroundColor = '#333'; // Volta ao cinza normal
+                }
+            });
+        });
+
+        document.addEventListener('mouseout', () => {
+            carroMouse.style.display = 'none';
+        });
+    
     </script>
+
+    
 </body>
 </html>
