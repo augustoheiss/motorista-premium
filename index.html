@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luiz Antonio | Mobilidade Executiva Premium</title>
+    <style>
+        :root {
+            --azul-escuro: #1A222C;
+            --azul-medio: #2A3441;
+            --azul-claro: #3B4A5A;
+            --dourado: #C5A869;
+            --dourado-claro: #E6C887;
+            --texto-claro: #F0F4F8;
+            --cinza-texto: #A0AAB5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--azul-escuro);
+            color: var(--texto-claro);
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: var(--azul-medio);
+            border-bottom: 4px solid var(--dourado);
+            background-image: linear-gradient(rgba(26, 34, 44, 0.9), rgba(42, 52, 65, 0.9));
+        }
+
+        header h1 {
+            color: var(--dourado);
+            font-size: 3rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--cinza-texto);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Menu Horizontal Fluido */
+        .nav-container {
+            background-color: var(--azul-medio);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .tab-menu {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tab-button {
+            background-color: transparent;
+            color: var(--cinza-texto);
+            border: none;
+            padding: 18px 20px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tab-button:hover {
+            color: var(--texto-claro);
+            background-color: var(--azul-claro);
+        }
+
+        .tab-button.active {
+            color: var(--dourado);
+            border-bottom: 4px solid var(--dourado);
+            background-color: rgba(0,0,0,0.2);
+        }
+
+        /* Área de Conteúdo */
+        .content-area {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--dourado);
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--azul-claro);
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: var(--dourado-claro);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .text-block {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background-color: var(--azul-medio);
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid var(--dourado);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .card ul li::before {
+            content: "•";
+            color: var(--dourado);
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .highlight-text {
+            color: var(--dourado-claro);
+            font-weight: bold;
+        }
+
+        .roi-banner {
+            background: linear-gradient(135deg, var(--azul-medio) 0%, #111 100%);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid var(--dourado);
+            margin-top: 30px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #25D366;
+            color: white;
+            padding: 18px 40px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-top: 30px;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            border: none;
+        }
+
+        .cta-button:hover { 
+            background-color: #1EBE5D; 
+            transform: translateY(-2px);
+        }
+
+        /* ESTILO DO BOTÃO FLUTUANTE DO WHATSAPP */
+        .whatsapp-float {
+            position: fixed;
+            width: 65px;
+            height: 65px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            box-shadow: 2px 2px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #1EBE5D;
+        }
+
+        /* SVG Icon size */
+        .whatsapp-float svg {
+            width: 35px;
+            height: 35px;
+            fill: white;
+        }
+
+        .ai-container {
+            margin-top: 60px;
+            padding: 30px;
+            background-color: var(--azul-medio);
+            border: 2px dashed var(--azul-claro);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .ai-container h3 {
+            color: var(--cinza-texto);
+        }
+
+        /* Ajuste responsivo para o botão flutuante no celular */
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                bottom: 20px;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+            }
+            .whatsapp-float svg {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Luiz Antonio</h1>
+        <p>A transição definitiva da corrida de aplicativo para a Gestão Integrada de Mobilidade Premium. Proteção, produtividade e sigilo corporativo absoluto.</p>
+    </header>
+
+    <div class="nav-container">
+        <div class="tab-menu">
+            <button class="tab-button active" onclick="openTab(event, 'visao-geral')">Visão Geral</button>
+            <button class="tab-button" onclick="openTab(event, 'o-especialista')">O Especialista</button>
+            <button class="tab-button" onclick="openTab(event, 'santuario')">Santuário Híbrido</button>
+            <button class="tab-button" onclick="openTab(event, 'economia')">Economia & ROI</button>
+            <button class="tab-button" onclick="openTab(event, 'compliance')">Compliance</button>
+            <button class="tab-button" onclick="openTab(event, 'servicos')">Soluções Modulares</button>
+            <button class="tab-button" onclick="openTab(event, 'contato')">Reservas</button>
+        </div>
+    </div>
+
+    <main class="content-area">
+        
+        <div id="visao-geral" class="tab-content active">
+            <h2>Mobilidade Executiva de Excelência</h2>
+            <div class="text-block">
+                <p>O trânsito urbano em São Paulo deixou de ser um mero obstáculo logístico para se tornar um dreno silencioso de produtividade e um vetor crítico de risco corporativo. A nossa missão é devolver o controle da sua agenda através de uma estrutura de transporte blindada contra imprevistos.</p>
+            </div>
+
+            <div style="text-align: center; margin: 40px 0;">
+                <button onclick="toggleAula()" class="cta-button" style="background-color: var(--dourado); color: var(--azul-escuro); box-shadow: 0 4px 15px rgba(197, 168, 105, 0.4);">
+                    ▶ Uma aula preparada para apresentar esse serviço pelo especialista Luiz
+                </button>
+            </div>
+
+            <div id="painel-aula" style="display: none; background-color: var(--azul-claro); padding: 30px; border-radius: 10px; border-left: 5px solid var(--dourado); margin-bottom: 40px; animation: fadeIn 0.5s ease;">
+                <h3 style="color: var(--dourado-claro); margin-bottom: 20px;">Dossiê de Mobilidade Corporativa</h3>
+                <p style="margin-bottom: 20px;">Explore nosso material de aprofundamento estratégico sobre transporte premium e proteção executiva:</p>
+                
+                <div style="margin-bottom: 25px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                    <strong style="display: block; margin-bottom: 10px; color: var(--texto-claro);">🎥 Assista à Apresentação: O Ativo Estratégico</strong>
+                    <video controls style="width: 100%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                        <source src="notebooklm/O_Ativo_Estratégico.mp4" type="video/mp4">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
+                </div>
+
+                <div style="margin-bottom: 25px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                    <strong style="display: block; margin-bottom: 10px; color: var(--texto-claro);">🎧 Ouça o Podcast de Análise de Mercado:</strong>
+                    <audio controls style="width: 100%;">
+                        <source src="notebooklm/Executivos_preferem_motoristas_maduros_em_blindados.m4a" type="audio/mp4">
+                        Seu navegador não suporta o elemento de áudio.
+                    </audio>
+                </div>
+
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 15px;">
+                        📄 <a href="notebooklm/Strategic_Executive_Mobility.pdf" target="_blank" style="color: var(--dourado); text-decoration: none; font-weight: bold;">Apresentação Executiva (Slide Deck)</a>
+                    </li>
+                    <li style="margin-bottom: 15px;">
+                        📑 <a href="notebooklm/Análise de Mobilidade Executiva Premium - Google Docs.pdf" target="_blank" style="color: var(--dourado); text-decoration: none; font-weight: bold;">Estudo Completo: O Paradigma da Mobilidade (PDF)</a>
+                    </li>
+                    <li style="margin-bottom: 15px;">
+                        📊 <a href="notebooklm/infografico.jpg" target="_blank" style="color: var(--dourado); text-decoration: none; font-weight: bold;">Infográfico de ROI e Vantagens</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Atendimento Multilíngue (LATAM)</h3>
+                    <ul>
+                        <li><span class="highlight-text">Português:</span> Nativo e Protocolar.</li>
+                        <li><span class="highlight-text">Espanhol:</span> Fluente (Suporte especializado para roadshows de executivos latino-americanos, chilenos, argentinos e colombianos).</li>
+                        <li><span class="highlight-text">Inglês:</span> Compreensão receptiva/básica.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>O Fim da "Economia de Bicos"</h3>
+                    <p>Aplicativos entregam motoristas aleatórios e veículos padronizados, diluindo a responsabilidade em algoritmos. Oferecemos <span class="highlight-text">Previsibilidade Absoluta</span> através de um profissional dedicado e extensamente verificado.</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="https://wa.me/5511954566078?text=Olá!%20Gostaria%20de%20agendar%20um%20serviço%20de%20mobilidade%20executiva%20com%20o%20Luiz%20Antonio." class="cta-button" target="_blank">
+                    Solicitar Disponibilidade e Valores no WhatsApp
+                </a>
+            </div>
+
+        </div>
+
+        <div id="o-especialista" class="tab-content">
+            <h2>O Ativo Humano: Memória Técnica</h2>
+            <div class="text-block">
+                <p>A inteligência artificial do GPS traça a rota, mas é a experiência de vida que toma a decisão segura. Nascido em 1959, Luiz Antonio traz mais de 40 anos de vivência no trânsito paulistano, oferecendo uma postura focada na mitigação de riscos.</p>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Evitação sobre a Ação</h3>
+                    <p>A verdadeira proteção reside em nunca entrar na zona de risco. Sem impulsividade ou "buscas por emoção", o foco é 100% em direção defensiva e mapeamento antecipado de gargalos.</p>
+                </div>
+                <div class="card">
+                    <h3>Mapeamento Cognitivo</h3>
+                    <p>Enquanto aplicativos sugerem a rota mais rápida, ignorando contextos sociais, Luiz Antonio utiliza o mapeamento cognitivo para evitar vias de alagamento crônico (pancadas de chuva) e áreas de protestos, garantindo fluidez real.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="santuario" class="tab-content">
+            <h2>O Hardware: BYD King GS</h2>
+            <div class="text-block">
+                <p>Projetado para eliminar o atrito da viagem e maximizar o foco do passageiro, nosso sedã híbrido não é apenas um veículo: é um cofre em movimento e a extensão perfeita do seu escritório na Faria Lima.</p>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Comodidades de Classe Executiva</h3>
+                    <ul>
+                        <li><span class="highlight-text">Silêncio Absoluto:</span> Motorização elétrica/híbrida que anula a fadiga sonora.</li>
+                        <li><span class="highlight-text">Conectividade:</span> Wi-Fi de alta velocidade e carregamento nativo.</li>
+                        <li><span class="highlight-text">Atmosfera:</span> Ar-condicionado digital independente e amplo espaço para trabalho.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Dinâmica de Condução Premium</h3>
+                    <p>Domínio das leis da física no asfalto. Utilização de técnicas de <span class="highlight-text">frenagem progressiva</span> e transferência suave de peso, garantindo que o executivo no banco de trás possa ler ou digitar sem qualquer solavanco.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="economia" class="tab-content">
+            <h2>O Retorno Sobre o Investimento do Tempo</h2>
+            <div class="text-block">
+                <p>Contratar excelência não é uma despesa operacional; é a recuperação direta de receita. O tempo perdido no volante é o ativo mais caro de uma corporação.</p>
+            </div>
+            
+            <div class="roi-banner">
+                <h3 style="font-size: 1.5rem; color: var(--texto-claro);">Recuperação de Produtividade Projetada:</h3>
+                <h2 style="font-size: 3.5rem; border: none; margin-bottom: 0;">R$ 504.000,00 <span style="font-size: 1.5rem; color: var(--cinza-texto);">/ ano</span></h2>
+                <p style="margin-top: 20px; font-size: 1.1rem; color: var(--dourado-claro);">
+                    Cálculo Base: Um executivo (remuneração de R$ 2M/ano) perdendo 3h/dia no trânsito custa R$ 720.000,00 anuais em horas ociosas. Ao transferir a direção para Luiz Antonio e transformar o carro em um escritório, recupera-se 70% desse valor.
+                </p>
+            </div>
+        </div>
+
+        <div id="compliance" class="tab-content">
+            <h2>Governança e Integridade Jurídica</h2>
+            <div class="text-block">
+                <p>Entendemos que os departamentos de suprimentos e RH de grandes corporações não podem correr riscos trabalhistas. Oferecemos uma estrutura 100% alinhada ao ESG e Compliance moderno.</p>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Regularidade Fiscal Total</h3>
+                    <ul>
+                        <li>Operação direta via <span class="highlight-text">CNPJ: 942.116.638-87</span>.</li>
+                        <li>Emissão rigorosa de Notas Fiscais (NFs) B2B.</li>
+                        <li><span class="highlight-text">Risco Zero:</span> Ausência total de vínculo empregatício ou encargos trabalhistas escondidos.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>O Serviço Silencioso ("Ausência Presente")</h3>
+                    <p>Fusões, aquisições e balanços financeiros são discutidos no banco de trás. Garantimos a <span class="highlight-text">Ausência Presente</span>: 100% de atenção às rotas e 100% de invisibilidade e surdez protocolar para os assuntos da cabine.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="servicos" class="tab-content">
+            <h2>Portfólio de Atendimento</h2>
+            <div class="text-block">
+                <p>Serviços logísticos desenhados milimetricamente para a rotina da alta gestão, turismo de luxo e cuidados de saúde premium em São Paulo.</p>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Turismo Médico e Saúde Premium</h3>
+                    <p>Atendimento cuidadoso, pontual e paciente para check-ups e intervenções no <span class="highlight-text">Hospital Albert Einstein, Sírio-Libanês</span> e clínicas de cirurgia plástica nos Jardins. Foco total no conforto do paciente em recuperação.</p>
+                </div>
+                <div class="card">
+                    <h3>Roadshows Financeiros (Diárias)</h3>
+                    <p>Disponibilidade integral do veículo e do motorista para agendas intensas de reuniões nos eixos <span class="highlight-text">Faria Lima, Vila Olímpia e Berrini</span>. Você foca no negócio, nós cuidamos do relógio.</p>
+                </div>
+                <div class="card">
+                    <h3>Transfers Estratégicos (Aeroportos)</h3>
+                    <p>Recepção pontual e monitoramento de voos em tempo real para os aeroportos de <span class="highlight-text">Guarulhos (GRU), Congonhas (CGH) e Viracopos (VCP)</span>, além de atendimento aos hotéis 5 estrelas da cidade.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="contato" class="tab-content">
+            <h2>Assuma o Controle da sua Logística</h2>
+            <div class="text-block" style="text-align: center;">
+                <p>O padrão-ouro em mobilidade corporativa está à disposição da sua diretoria. Entre em contato diretamente com a nossa gestão para orçamentos, cotações de diárias ou transfers pontuais.</p>
+                
+                <a href="https://wa.me/5511954566078?text=Olá!%20Gostaria%20de%20agendar%20um%20serviço%20de%20mobilidade%20executiva%20com%20o%20Luiz%20Antonio." class="cta-button" target="_blank">
+                    Conversar no WhatsApp (11 95456-6078)
+                </a>
+            </div>
+            
+            <div class="ai-container" id="chatbot-container">
+                <h3>[ Assistente Logístico Virtual - IA ]</h3>
+                <p style="color: var(--cinza-texto); margin-top: 10px; font-size: 0.9rem;">
+                    *Área reservada para integração da API do Gemini e arquitetura RAG Python para orçamentos automatizados.*
+                </p>
+            </div>
+
+        </div>
+
+    </main>
+
+    <a href="https://wa.me/5511954566078?text=Olá!%20Gostaria%20de%20agendar%20um%20serviço%20de%20mobilidade%20executiva%20com%20o%20Luiz%20Antonio." class="whatsapp-float" target="_blank" title="Fale conosco no WhatsApp">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825.737 5.488 2.05 7.85l-2.05 7.5 7.688-2.013c2.313 1.175 4.9 1.838 7.663 1.838 8.838 0 16-7.163 16-16s-7.162-16-16-16zm8.138 23.088c-.35.988-2.025 1.9-2.838 2.025-.713.113-1.638.213-4.838-1.113-3.863-1.6-6.325-5.55-6.525-5.813-.2-.275-1.563-2.075-1.563-3.963s1-2.825 1.35-3.213c.35-.388.763-.488 1.013-.488.25 0 .5 0 .713.013.225.013.538-.088.838.638.313.738 1.063 2.6 1.15 2.788.088.188.15.413.025.663-.113.25-.175.4-.35.613-.175.213-.363.45-.525.613-.188.188-.388.4-.175.763.213.363.95 1.563 2.038 2.525 1.388 1.238 2.563 1.625 2.925 1.8.363.175.575.15.788-.088.213-.238.913-1.063 1.163-1.425.25-.363.5-.3.825-.175.325.125 2.075.975 2.425 1.15.35.175.588.263.675.413.088.15.088.863-.262 1.85z"/>
+        </svg>
+    </a>
+
+    <script>
+        // Função para abrir as abas do menu
+        function openTab(evt, tabId) {
+            // Esconde todas as abas
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove a classe ativa dos botões
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Mostra a aba clicada
+            document.getElementById(tabId).classList.add('active');
+            
+            // Adiciona a classe ativa no botão que foi clicado
+            if (evt) {
+                evt.currentTarget.classList.add('active');
+            }
+            
+            // Suave scroll para o topo do conteúdo no mobile
+            if(window.innerWidth < 768) {
+                window.scrollTo({
+                    top: document.querySelector('.content-area').offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Função para abrir e fechar o painel com os vídeos e PDFs
+        function toggleAula() {
+            const painel = document.getElementById('painel-aula');
+            if (painel.style.display === 'none' || painel.style.display === '') {
+                painel.style.display = 'block';
+            } else {
+                painel.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
