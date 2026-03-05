@@ -3,6 +3,40 @@
    ========================================= */
 
 
+/* =========================================
+   MENU HAMBÚRGUER — Toggle Mobile
+   ========================================= */
+
+const mobileToggle  = document.querySelector('.mobile-toggle');
+const navbarLinks   = document.querySelector('.navbar-links');
+
+if (mobileToggle && navbarLinks) {
+
+    /* Abre / fecha o menu ao clicar no hambúrguer */
+    mobileToggle.addEventListener('click', () => {
+        const isOpen = navbarLinks.classList.toggle('active');
+        mobileToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
+        mobileToggle.textContent = isOpen ? '✕' : '☰';
+    });
+
+    /* Fecha o menu ao clicar em qualquer link interno */
+    navbarLinks.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            navbarLinks.classList.remove('active');
+            mobileToggle.setAttribute('aria-label', 'Abrir menu');
+            mobileToggle.textContent = '☰';
+        });
+    });
+
+    /* Fecha também ao clicar no .nav-cta da barra superior */
+    document.querySelector('.nav-cta')?.addEventListener('click', () => {
+        navbarLinks.classList.remove('active');
+        mobileToggle.setAttribute('aria-label', 'Abrir menu');
+        mobileToggle.textContent = '☰';
+    });
+}
+
+
 /* ---- Scroll Spy: Link Ativo no Menu ---- */
 
 const navLinks     = document.querySelectorAll('.nav-link');

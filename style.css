@@ -124,6 +124,10 @@ body {
     box-shadow: 0 5px 18px rgba(197, 168, 105, 0.55);
 }
 
+.mobile-toggle {
+    display: none;
+}
+
 
 /* =========================================
    SCROLL SECTIONS — Layout de Página Única
@@ -762,32 +766,108 @@ h3 {
    RESPONSIVIDADE
    ========================================= */
 
-@media (max-width: 960px) {
+@media (max-width: 992px) {
+
+    /* Layout geral da navbar no mobile */
     .navbar {
-        padding: 0 16px;
-        gap: 10px;
+        padding: 0 20px;
+        gap: 8px;
+        position: relative; /* âncora para o dropdown absoluto */
     }
 
     .navbar-brand {
-        font-size: 1.05rem;
+        font-size: 1.1rem;
+        margin-right: auto; /* empurra nav-cta e toggle para a direita */
     }
 
-    .nav-link {
-        padding: 7px 9px;
-        font-size: 0.76rem;
+    /* Botão hambúrguer */
+    .mobile-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        color: var(--dourado);
+        font-size: 1.75rem;
+        line-height: 1;
+        padding: 4px 8px;
+        cursor: pointer;
+        flex-shrink: 0;
+        order: 9; /* aparece após o .nav-cta na linha flex */
+        transition: color 0.2s ease, transform 0.2s ease;
     }
 
+    .mobile-toggle:hover {
+        color: var(--dourado-claro);
+        transform: scale(1.1);
+    }
+
+    /* nav-cta: permanece fixo na barra superior */
     .nav-cta {
-        padding: 8px 14px;
-        font-size: 0.76rem;
+        padding: 7px 11px;
+        font-size: 0.72rem;
+        order: 0; /* antes do toggle no eixo flex */
+    }
+
+    /* ── Dropdown mobile ── */
+    .navbar-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        flex: unset;
+        justify-content: flex-start;
+        overflow-x: visible;
+        scrollbar-width: auto;
+        background: rgba(10, 15, 25, 0.97);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(197, 168, 105, 0.25);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+        padding: 10px 0 18px;
+        /* Estado oculto */
+        transform: translateY(-12px);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+                    opacity 0.28s ease;
+    }
+
+    .navbar-links.active {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Links: touch-friendly e centralizados */
+    .nav-link {
+        display: block;
+        width: 100%;
+        padding: 15px 24px;
+        font-size: 0.88rem;
+        text-align: center;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        white-space: normal;
+    }
+
+    .nav-link:last-child {
+        border-bottom: none;
+    }
+
+    .nav-link:hover {
+        background-color: rgba(197, 168, 105, 0.1);
+    }
+
+    .nav-link.active {
+        background-color: rgba(197, 168, 105, 0.1);
     }
 }
 
 @media (max-width: 768px) {
-    .navbar-brand {
-        display: none;
-    }
-
     .whatsapp-float {
         bottom: 20px;
         right: 20px;
