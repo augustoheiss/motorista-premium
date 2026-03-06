@@ -39,8 +39,9 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
+    width: 100%;
     z-index: 1000;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     gap: 16px;
@@ -115,6 +116,7 @@ body {
     transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
     white-space: nowrap;
     flex-shrink: 0;
+    margin-left: auto;
     box-shadow: 0 2px 12px rgba(197, 168, 105, 0.35);
 }
 
@@ -770,9 +772,13 @@ h3 {
 
     /* Layout geral da navbar no mobile */
     .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        box-sizing: border-box;
         padding: 0 20px;
         gap: 8px;
-        position: relative; /* âncora para o dropdown absoluto */
     }
 
     .navbar-brand {
@@ -793,20 +799,12 @@ h3 {
         padding: 4px 8px;
         cursor: pointer;
         flex-shrink: 0;
-        order: 9; /* aparece após o .nav-cta na linha flex */
         transition: color 0.2s ease, transform 0.2s ease;
     }
 
     .mobile-toggle:hover {
         color: var(--dourado-claro);
         transform: scale(1.1);
-    }
-
-    /* nav-cta: permanece fixo na barra superior */
-    .nav-cta {
-        padding: 7px 11px;
-        font-size: 0.72rem;
-        order: 0; /* antes do toggle no eixo flex */
     }
 
     /* ── Dropdown mobile ── */
@@ -864,6 +862,31 @@ h3 {
 
     .nav-link.active {
         background-color: rgba(197, 168, 105, 0.1);
+    }
+
+    /* Reseta margin-left: auto do desktop no layout de coluna */
+    .navbar-links .nav-cta {
+        margin-left: 0;
+        display: none;
+    }
+
+    /* CTA de destaque dentro do menu hambúrguer aberto */
+    .navbar-links.active .nav-cta {
+        display: block;
+        text-align: center;
+        background-color: var(--dourado);
+        color: var(--azul-escuro);
+        margin: 20px 16px 8px;
+        padding: 15px;
+        border-radius: 5px;
+        font-weight: bold;
+        box-shadow: 0 4px 18px rgba(197, 168, 105, 0.4);
+        transform: none;
+    }
+
+    .navbar-links.active .nav-cta:hover {
+        background-color: var(--dourado-claro);
+        transform: none;
     }
 }
 
