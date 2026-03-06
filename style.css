@@ -44,7 +44,7 @@ body {
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    gap: 16px;
+    justify-content: space-between;
     padding: 0 32px;
     height: var(--navbar-height);
     background-color: rgba(26, 34, 44, 0.82);
@@ -62,13 +62,16 @@ body {
     white-space: nowrap;
     flex-shrink: 0;
     text-transform: uppercase;
+    margin: 0;
+    line-height: 1;
 }
 
 .navbar-links {
     display: flex;
     align-items: center;
-    gap: 2px;
-    flex: 1;
+    gap: 25px;
+    margin-left: auto;
+    margin-right: auto;
     justify-content: center;
     overflow-x: auto;
     scrollbar-width: none;
@@ -117,6 +120,7 @@ body {
     white-space: nowrap;
     flex-shrink: 0;
     box-shadow: 0 2px 12px rgba(197, 168, 105, 0.35);
+    margin-left: 16px;
 }
 
 .nav-cta:hover {
@@ -321,24 +325,24 @@ h3 {
 
 .hero-cta {
     display: inline-block;
-    margin-top: 40px;
-    padding: 18px 48px;
     background-color: var(--dourado);
     color: var(--azul-escuro);
-    text-decoration: none;
-    font-size: 1.05rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
+    padding: 20px 40px;
     border-radius: 8px;
-    box-shadow: 0 6px 28px rgba(197, 168, 105, 0.45);
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 50px;
+    box-shadow: 0 5px 20px rgba(197, 168, 105, 0.4);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
 }
 
 .hero-cta:hover {
     background-color: var(--dourado-claro);
     transform: translateY(-3px);
-    box-shadow: 0 10px 36px rgba(197, 168, 105, 0.6);
+    box-shadow: 0 10px 36px rgba(197, 168, 105, 0.65);
 }
 
 
@@ -808,6 +812,8 @@ h3 {
         align-items: stretch;
         gap: 0;
         flex: unset;
+        margin-left: 0;
+        margin-right: 0;
         justify-content: flex-start;
         overflow-x: visible;
         scrollbar-width: auto;
