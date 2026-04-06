@@ -1,6 +1,25 @@
 /* =========================================
-   MOTORISTA PREMIUM — Script Principal
+   MOTORISTA PREMIUM — Script Principal v2.0
    ========================================= */
+
+
+/* =========================================
+   FADE-IN — Intersection Observer
+   ========================================= */
+
+const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            fadeObserver.unobserve(entry.target);
+        }
+    });
+}, {
+    rootMargin: '0px 0px -60px 0px',
+    threshold: 0.1
+});
+
+document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
 
 /* =========================================
@@ -64,58 +83,85 @@ scrollSections.forEach(section => scrollSpyObserver.observe(section));
 
 /* =========================================
    EFEITO VISUAL — Trânsito vs. Fluidez
+   (Refined: fewer cars, subtler effect)
    ========================================= */
 
-const TOTAL_CARROS_LENTOS = 40;
-const RAIO_FUGA = 120;
+const TOTAL_CARROS_LENTOS = 28;
+const RAIO_FUGA = 100;
 
 const transitoContainer  = document.getElementById('transito-background');
 const carroMouse         = document.getElementById('carro-mouse');
 const carrosLentosEls    = [];
 
 (function criarCongestionamento() {
+    if (!transitoContainer) return;
     for (let i = 0; i < TOTAL_CARROS_LENTOS; i++) {
         const carro = document.createElement('div');
         carro.className = 'carro-lento';
         carro.style.left     = Math.random() * 100 + 'vw';
-        carro.style.animation = `moverTransito ${15 + Math.random() * 20}s linear -${Math.random() * 20}s infinite`;
+        carro.style.animation = `moverTransito ${18 + Math.random() * 25}s linear -${Math.random() * 25}s infinite`;
         transitoContainer.appendChild(carro);
         carrosLentosEls.push(carro);
     }
 })();
 
-document.addEventListener('mousemove', (e) => {
-    carroMouse.style.display = 'block';
+/* Only enable car cursor on non-touch devices */
+if (window.matchMedia('(hover: hover)').matches) {
+    document.addEventListener('mousemove', (e) => {
+        if (!carroMouse) return;
+        carroMouse.style.display = 'block';
 
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
 
-    carroMouse.style.left = (mouseX - 20) + 'px';
-    carroMouse.style.top  = (mouseY - 40) + 'px';
+        carroMouse.style.left = (mouseX - 14) + 'px';
+        carroMouse.style.top  = (mouseY - 28) + 'px';
 
-    carrosLentosEls.forEach(carro => {
-        const rect   = carro.getBoundingClientRect();
-        const carroX = rect.left + rect.width  / 2;
-        const carroY = rect.top  + rect.height / 2;
-        const distX  = mouseX - carroX;
-        const distY  = mouseY - carroY;
-        const dist   = Math.sqrt(distX * distX + distY * distY);
+        carrosLentosEls.forEach(carro => {
+            const rect   = carro.getBoundingClientRect();
+            const carroX = rect.left + rect.width  / 2;
+            const carroY = rect.top  + rect.height / 2;
+            const distX  = mouseX - carroX;
+            const distY  = mouseY - carroY;
+            const dist   = Math.sqrt(distX * distX + distY * distY);
 
-        if (dist < RAIO_FUGA) {
-            const direcao = carroX < mouseX ? -1 : 1;
-            const forca   = (RAIO_FUGA - dist) * 0.8;
-            carro.style.transform       = `translateX(${direcao * forca}px)`;
-            carro.style.backgroundColor = '#8B0000';
-        } else {
-            carro.style.transform       = 'translateX(0px)';
-            carro.style.backgroundColor = '#333';
+            if (dist < RAIO_FUGA) {
+                const direcao = carroX < mouseX ? -1 : 1;
+                const forca   = (RAIO_FUGA - dist) * 0.6;
+                carro.style.transform       = `translateX(${direcao * forca}px)`;
+                carro.style.backgroundColor = 'rgba(139, 0, 0, 0.5)';
+            } else {
+                carro.style.transform       = 'translateX(0px)';
+                carro.style.backgroundColor = '';
+            }
+        });
+    });
+
+    document.addEventListener('mouseout', () => {
+        if (carroMouse) carroMouse.style.display = 'none';
+    });
+}
+
+
+/* =========================================
+   STEP PROGRESS INDICATOR
+   ========================================= */
+
+const STEP_IDS = ['step-meses', 'step-calendario', 'step-horarios', 'step-confirmacao'];
+
+function updateStepProgress(activeStepId) {
+    const activeIndex = STEP_IDS.indexOf(activeStepId);
+    const dots = document.querySelectorAll('.step-dot');
+
+    dots.forEach((dot, i) => {
+        dot.classList.remove('active', 'completed');
+        if (i === activeIndex) {
+            dot.classList.add('active');
+        } else if (i < activeIndex) {
+            dot.classList.add('completed');
         }
     });
-});
-
-document.addEventListener('mouseout', () => {
-    carroMouse.style.display = 'none';
-});
+}
 
 
 /* =========================================
@@ -157,6 +203,9 @@ function initAgendamento() {
         btn.addEventListener('click', () => selecionarMes(m, anoHoje));
         grid.appendChild(btn);
     }
+
+    /* Initial progress state */
+    updateStepProgress('step-meses');
 }
 
 /* --- Passo 1 → Passo 2: selecionar mês --- */
@@ -311,7 +360,11 @@ function mostrarStep(stepId) {
     document.querySelectorAll('.agendamento-step').forEach(el => {
         el.classList.remove('active');
     });
-    document.getElementById(stepId).classList.add('active');
+    const target = document.getElementById(stepId);
+    if (target) {
+        target.classList.add('active');
+    }
+    updateStepProgress(stepId);
 }
 
 function voltarStep(numeroStep) {
