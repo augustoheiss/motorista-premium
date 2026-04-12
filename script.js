@@ -371,3 +371,65 @@ function voltarStep(numeroStep) {
     const steps = ['step-meses', 'step-calendario', 'step-horarios', 'step-confirmacao'];
     mostrarStep(steps[numeroStep - 1]);
 }
+
+
+/* =========================================
+   LEGAL PAGE — Hash-based View Toggle
+   ========================================= */
+
+(function initLegalRouting() {
+    const mainContent  = document.querySelector('main');
+    const termosPage   = document.getElementById('termos-page');
+    const siteFooter   = document.querySelector('.site-footer');
+    const navbar       = document.getElementById('navbar');
+    const backBtnTop   = document.getElementById('legal-back-btn');
+    const backBtnBot   = document.getElementById('legal-back-btn-bottom');
+    const termosLink   = document.getElementById('footer-termos-link');
+
+    if (!mainContent || !termosPage) return;
+
+    function showTermos() {
+        mainContent.style.display = 'none';
+        termosPage.style.display  = 'block';
+        window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    function showMain() {
+        termosPage.style.display  = 'none';
+        mainContent.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    function handleRoute() {
+        if (window.location.hash === '#termos') {
+            showTermos();
+        } else {
+            showMain();
+        }
+    }
+
+    /* Back buttons → return to main */
+    function goBack(e) {
+        e.preventDefault();
+        history.pushState(null, '', window.location.pathname);
+        showMain();
+    }
+
+    if (backBtnTop) backBtnTop.addEventListener('click', goBack);
+    if (backBtnBot) backBtnBot.addEventListener('click', goBack);
+
+    /* Footer link */
+    if (termosLink) {
+        termosLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            history.pushState(null, '', '#termos');
+            showTermos();
+        });
+    }
+
+    /* Handle browser back/forward */
+    window.addEventListener('hashchange', handleRoute);
+
+    /* Handle direct URL access (e.g., page load with #termos) */
+    handleRoute();
+})();
